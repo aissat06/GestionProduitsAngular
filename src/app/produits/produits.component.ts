@@ -12,11 +12,18 @@ export class ProduitsComponent implements OnInit {
   produits : Produit[]; //un tableau de produit
 
   constructor(private produitService: ProduitService) {
-    
+
     this.produits = produitService.listeProduits();
   }
 
   ngOnInit(): void {
+  }
+
+  supprimerProduit(p: Produit){
+    //console.log(p);
+    let conf = confirm("Etes-vous sur de vouloir supprimer le produit:  " + p.nomProduit );
+    if (conf)
+      this.produitService.supprimerProduit(p);
   }
 
 }
