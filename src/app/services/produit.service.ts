@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Categorie } from '../model/categorie.model';
 import { Produit } from '../model/produit.model';
 
 @Injectable({
@@ -9,15 +10,22 @@ export class ProduitService {
 
   produits : Produit[]; //un tableau de Produit
   produit : any;
-  
-  /*n1 : any;
-  n2 : any;*/
-  
+  categories: Categorie[]; // un tableau de categorie
+  categorie : any;
+
   constructor(private router: Router) { 
+
+    //initialiser le tableau catégorie
+    this.categories = [
+      {idCat : 1, nomCat : "PC"}, 
+      {idCat : 2, nomCat : "Imprimante"}
+    ];
+
+    //initialiser le tableau produit
     this.produits = [ 
-      {idProduit : 1, nomProduit : "PC Asus", prixProduit : 3000.600, dateCreation : new Date("01/14/2011")}, 
-      {idProduit : 2, nomProduit : "Imprimante Epson", prixProduit : 450, dateCreation : new Date("12/17/2010")}, 
-      {idProduit : 3, nomProduit :"Tablette Samsung", prixProduit : 900.123, dateCreation : new Date("02/20/2020")} 
+      {idProduit : 1, nomProduit : "PC Asus", prixProduit : 3000.600, dateCreation : new Date("01/14/2011"), categorie : {idCat : 1, nomCat : "PC"}}, 
+      {idProduit : 2, nomProduit : "Imprimante Epson", prixProduit : 450, dateCreation : new Date("12/17/2010"), categorie : {idCat : 2, nomCat : "Imprimante"}}, 
+      {idProduit : 3, nomProduit :"Tablette Samsung", prixProduit : 900.123, dateCreation : new Date("02/20/2020"), categorie : {idCat : 1, nomCat : "PC"}} 
     ];
   }
 
@@ -27,7 +35,7 @@ export class ProduitService {
 
   ajouterProduit( prod: Produit){
     this.produits.push(prod);
-    this.router.navigate(['produits']);
+    
   }
 
   supprimerProduit(prod: Produit) { 
@@ -67,5 +75,14 @@ export class ProduitService {
     this.supprimerProduit(p);
     this.ajouterProduit(p);
     this.trierProduits();
+  }
+
+  listeCategories():Categorie[] { 
+    return this.categories; 
+  }
+
+  consulterCategorie(id:number): Categorie{ 
+    this.categorie = this.categories.find(cat => cat.idCat == id); 
+    return this.categorie; 
   }
 }
